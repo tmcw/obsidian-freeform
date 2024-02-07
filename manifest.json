@@ -1,11 +1,10 @@
 {
-	"id": "email-block-plugin",
-	"name": "Email code block",
-	"version": "0.6.0",
-	"minAppVersion": "0.15.0",
-	"description": "This plugin renders an email code block.",
-	"author": "JoLeaf",
-	"authorUrl": "https://github.com/JoLeaf",
-	"fundingUrl": "https://ko-fi.com/joleaf",
-	"isDesktopOnly": false
+  "id": "iframe-block-plugin",
+  "name": "Iframe code block",
+  "version": "0.0.0",
+  "minAppVersion": "0.0.0",
+  "description": "Creates an iframe block",
+  "author": "tmcw",
+  "authorUrl": "https://github.com/tmcw",
+  "isDesktopOnly": false
 }

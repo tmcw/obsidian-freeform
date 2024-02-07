@@ -1,26 +1,19 @@
 {
-  "name": "email-block-plugin",
-  "version": "0.6.0",
-  "description": "This plugin renders an email code block.",
-  "main": "main.js",
+  "name": "iframe-block-plugin",
+  "version": "0.0.0",
+  "description": "This plugin generates an iframe.",
+  "type": "module",
+  "main": "main.mjs",
   "scripts": {
-    "dev": "node esbuild.config.mjs",
-    "build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
     "version": "node version-bump.mjs && git add manifest.json versions.json"
   },
   "keywords": [],
-  "author": "",
+  "author": "Tom MacWright",
   "license": "MIT",
   "devDependencies": {
-    "@types/node": "^16.11.6",
     "@typescript-eslint/eslint-plugin": "5.29.0",
     "@typescript-eslint/parser": "5.29.0",
-    "builtin-modules": "3.3.0",
-    "esbuild": "0.14.47",
     "obsidian": "latest",
-    "tslib": "2.4.0",
     "typescript": "4.7.4"
-  },
-  "dependencies": {
   }
 }
