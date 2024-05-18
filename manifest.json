@@ -1,7 +1,7 @@
 {
   "id": "iframe-freeform",
   "name": "Freeform",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "minAppVersion": "0.0.0",
   "description": "Make visualizations and run arbitrary code with JavaScript + iframe blocks.",
   "author": "tmcw",
