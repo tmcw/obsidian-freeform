@@ -6,7 +6,7 @@
 
 .run-block-frame {
   border-top-left-radius: 4px;
-  border-top-right: 4px;
+  border-top-right-radius: 4px;
   background: #fff;
   width: 100%;
   padding: 10px;

@@ -1,9 +1,9 @@
 {
-  "id": "iframe-block-plugin",
-  "name": "Iframe code block",
+  "id": "iframe-freeform",
+  "name": "Freeform",
   "version": "0.0.0",
   "minAppVersion": "0.0.0",
-  "description": "Creates an iframe block",
+  "description": "Make visualizations and run arbitrary code with JavaScript + iframe blocks.",
   "author": "tmcw",
   "authorUrl": "https://github.com/tmcw",
   "isDesktopOnly": false
