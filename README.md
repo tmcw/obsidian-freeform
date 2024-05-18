@@ -9,6 +9,10 @@ This brings a taste of [Observable](https://observablehq.com/) to
 [Obsidian](https://obsidian.md/). Some common elements include:
 
 - You can write blocks of code which run in a light sandboxed environment
+- You can use `import` statements to import modules from URLs, using services
+  like esm.sh or jsdelivr.
+- `export` statements are supported too, but have no effect. `require()` is not supported.
+  JSX is also not supported, yet.
 - There's a `display()` function to show values and elements, just like
   Observable Framework's [explicit display system](https://observablehq.com/framework/javascript#explicit-display).
 
