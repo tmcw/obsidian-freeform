@@ -31,7 +31,16 @@ show the number 42. Now you've learned all of the concepts in freeform! It's
 JavaScript, and you can use the `display()` method to show a value. See the rest
 of this readme for some examples.
 
+## Demo
+
+https://github.com/tmcw/obsidian-freeform/assets/32314/56b4e23a-2837-4a06-84c7-ee35b09c2634
+
 ### Examples
+
+#### Using Observable Plot
+
+You can easily import [Observable Plot](https://observablehq.com/plot/) and use
+it with Freeform.
 
     ```freeform
     import *  as Plot from "https://cdn.jsdelivr.net/npm/@observablehq/plot@0.6/+esm";
@@ -52,6 +61,29 @@ of this readme for some examples.
       marginLeft: 100,
       fill: "name"
     }).plot({ height: 400, width }))
+    ```
+
+#### Importing a module from esm.sh
+
+Most npm modules that are compatible with browsers are available from
+https://esm.sh/, jsdelivr, unpkg, or skypack. Observable Plot is an especially
+tricky one, but most "just work."
+
+    ```freeform
+    import { min } from "https://esm.sh/simple-statistics";
+    display(min([1, 2, 3]))
+    ```
+
+#### Running Preact
+
+Freeform _doesn't support JSX syntax_ (yet) but frameworks
+like Preact [can work without it](https://preactjs.com/guide/v10/getting-started/).
+
+    ```freeform
+    import { h, render } from 'https://esm.sh/preact';
+    // Create your app
+    const app = h('h1', null, 'Hello World!');
+    render(app, document.body);
     ```
 
 ### Notes
