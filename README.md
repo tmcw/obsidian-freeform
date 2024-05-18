@@ -96,3 +96,8 @@ like Preact [can work without it](https://preactjs.com/guide/v10/getting-started
   isn't a node_modules directory, and you don't have short names for dependencies.
   Thankfully, this usually isn't a problem because you can use https://esm.sh/
   https://www.jsdelivr.com/ and more to import modules.
+
+## Components
+
+This plugin uses [@observablehq/inspector](https://github.com/observablehq/inspector) as
+the `display()` method.
