@@ -8,6 +8,39 @@ module.exports = class IframeBlockPlugin extends Plugin {
     this.registerMarkdownCodeBlockProcessor(
       "freeform",
       async (src, el, ctx) => {
+
+        var showCode = true
+        var styleText = ''
+
+        // Look in src for the following
+        // //- showCode:true/false
+        // //- styleLinkUrl:https://cdn.jsdelivr.net/npm/frappe-gantt@0.6.1/dist/frappe-gantt.min.css
+        // //- styleText:body {Some css here}
+
+        const re = /^\/\/- (.+?):(.+)$/gm;  
+        for ( const match of src.matchAll(re)) {
+          console.log(`Found directive ${match[1]} with argument ${match[2]}`);
+          if ( match[1] == 'showCode' && match[2] == 'false' ) { showCode = false }
+          if ( match[1] == 'styleText') {
+            styleText += "\n" + match[2] + "\n";
+          }
+          if ( match[1] == 'styleLinkUrl') {
+            // We need to get the css from the URL
+            const r = new Request(match[2]);
+            console.log(`url is ${r.url}`);
+            const response = await fetch(r);
+            if (!response.ok) {
+              throw new Error('Network response was not ok ' + response.statusText)
+            }
+
+            const responseData = await response.text();
+
+            styleText += "\n" + responseData + "\n";
+          }
+        }
+        console.log(`showCode is ${showCode}`)
+        console.log(`styleText is ${styleText}`)
+
         try {
           // Give this iframe an identifier so that when it sends messages
           // from the iframe context back up, we know which iframe's messages
@@ -21,6 +54,7 @@ module.exports = class IframeBlockPlugin extends Plugin {
           iframe.srcdoc = `<!DOCTYPE html>
 <style>
 :root{--syntax_normal:#1b1e23;--syntax_comment:#a9b0bc;--syntax_number:#20a5ba;--syntax_keyword:#c30771;--syntax_atom:#10a778;--syntax_string:#008ec4;--syntax_error:#ffbedc;--syntax_unknown_variable:#838383;--syntax_known_variable:#005f87;--syntax_matchbracket:#20bbfc;--syntax_key:#6636b4;--mono_fonts:82%/1.5 Menlo,Consolas,monospace}.observablehq--collapsed,.observablehq--expanded,.observablehq--function,.observablehq--gray,.observablehq--import,.observablehq--string:after,.observablehq--string:before{color:var(--syntax_normal)}.observablehq--collapsed,.observablehq--inspect a{cursor:pointer}.observablehq--field{text-indent:-1em;margin-left:1em}.observablehq--empty{color:var(--syntax_comment)}.observablehq--blue,.observablehq--keyword{color:#3182bd}.observablehq--forbidden,.observablehq--pink{color:#e377c2}.observablehq--orange{color:#e6550d}.observablehq--boolean,.observablehq--null,.observablehq--undefined{color:var(--syntax_atom)}.observablehq--bigint,.observablehq--date,.observablehq--green,.observablehq--number,.observablehq--regexp,.observablehq--symbol{color:var(--syntax_number)}.observablehq--index,.observablehq--key{color:var(--syntax_key)}.observablehq--prototype-key{color:#aaa}.observablehq--empty{font-style:oblique}.observablehq--purple,.observablehq--string{color:var(--syntax_string)}.observablehq--error,.observablehq--red{color:#e7040f}.observablehq--inspect{font:var(--mono_fonts);overflow-x:auto;display:block;white-space:pre}.observablehq--error .observablehq--inspect{word-break:break-all;white-space:pre-wrap}
+${styleText}
 </style>
 <script type="module">
 // @observablehq/inspector v5.0.0 Copyright 2022 Observable, Inc.
@@ -65,19 +99,22 @@ console.log(e);
           window.addEventListener("message", (evt) => {
             if (evt.data.type === "height" && evt.data.id === iframeId) {
               iframe.height = evt.data.height + 40 + "px";
+              console.log(`Ressize - height is now ${iframe.height}`)
             }
           });
 
-          const srcEl = rootEl.createEl("div", { cls: "run-block-src" });
+          if (showCode) {
+            const srcEl = rootEl.createEl("div", { cls: "run-block-src" });
 
-          // Show the source code below the iframe
-          MarkdownRenderer.render(
-            this.app,
-            `\`\`\`js\n${src}\n\`\`\``,
-            srcEl,
-            ctx.sourcePath,
-            this,
-          );
+            // Show the source code below the iframe if we want 
+            MarkdownRenderer.render(
+              this.app,
+              `\`\`\`js\n${src}\n\`\`\``,
+              srcEl,
+              ctx.sourcePath,
+              this,
+            );
+          };
         } catch (error) {
           el.createEl("h3", { text: error });
         }
