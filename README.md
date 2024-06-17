@@ -35,6 +35,31 @@ show the number 42. Now you've learned all of the concepts in freeform! It's
 JavaScript, and you can use the `display()` method to show a value. See the rest
 of this readme for some examples.
 
+## Directives
+
+There are three directives that you can add to your code with `//-`. 
+
+    ```freeform
+
+    // If you do not want the code to appear below the result `iframe`, set the following
+    
+    //- showCode:false
+
+    // If you need to add some style css to the head of the `iframe`, set the following
+    // (you can have as many of these directives as you would like)
+    
+    //- styleText:body { font-family: "Helvetica", Sans-Serif; } 
+
+    // If you need to load a stylesheet in the head of the `iframe`, set the following
+    //- styleLinkUrl:https://some/url/stylesheet.css
+
+    // Note that Obsidian Content-Security-Policy does not allow for
+    // <link rel="stylesheet" href="..."> directives. Instead, the data from the url will be downloaded
+    // and the text of the stylesheet injected into the `iframe` top `<style>` element. 
+
+    // Your code ...
+    ```
+
 ## Demo
 
 https://github.com/tmcw/obsidian-freeform/assets/32314/56b4e23a-2837-4a06-84c7-ee35b09c2634
