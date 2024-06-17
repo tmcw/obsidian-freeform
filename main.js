@@ -19,7 +19,7 @@ module.exports = class IframeBlockPlugin extends Plugin {
 
         const re = /^\/\/- (.+?):(.+)$/gm;  
         for ( const match of src.matchAll(re)) {
-          console.log(`Found directive ${match[1]} with argument ${match[2]}`);
+          // console.log(`Found directive ${match[1]} with argument ${match[2]}`);
           if ( match[1] == 'showCode' && match[2] == 'false' ) { showCode = false }
           if ( match[1] == 'styleText') {
             styleText += "\n" + match[2] + "\n";
@@ -27,7 +27,7 @@ module.exports = class IframeBlockPlugin extends Plugin {
           if ( match[1] == 'styleLinkUrl') {
             // We need to get the css from the URL
             const r = new Request(match[2]);
-            console.log(`url is ${r.url}`);
+            // console.log(`url is ${r.url}`);
             const response = await fetch(r);
             if (!response.ok) {
               throw new Error('Network response was not ok ' + response.statusText)
@@ -38,8 +38,8 @@ module.exports = class IframeBlockPlugin extends Plugin {
             styleText += "\n" + responseData + "\n";
           }
         }
-        console.log(`showCode is ${showCode}`)
-        console.log(`styleText is ${styleText}`)
+        // console.log(`showCode is ${showCode}`)
+        // console.log(`styleText is ${styleText}`)
 
         try {
           // Give this iframe an identifier so that when it sends messages
@@ -99,7 +99,7 @@ console.log(e);
           window.addEventListener("message", (evt) => {
             if (evt.data.type === "height" && evt.data.id === iframeId) {
               iframe.height = evt.data.height + 40 + "px";
-              console.log(`Ressize - height is now ${iframe.height}`)
+              // console.log(`Resize - height is now ${iframe.height}`)
             }
           });
 
