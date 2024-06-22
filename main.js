@@ -12,7 +12,6 @@ module.exports = class IframeBlockPlugin extends Plugin {
           // Give this iframe an identifier so that when it sends messages
           // from the iframe context back up, we know which iframe's messages
           // belong to which code blocks
-          const iframeId = crypto.randomUUID();
           const rootEl = el.createEl("div", {
             cls: "run-block",
           });
@@ -39,8 +38,7 @@ globalThis.width = window.innerWidth;
 const resizeObserver = new ResizeObserver((entries) => {
   parent.postMessage({
     type: 'height',
-    height: document.body.offsetHeight,
-    id: ${JSON.stringify(iframeId)}
+    height: document.body.offsetHeight
   }, '*');
 });
 
@@ -63,7 +61,7 @@ console.log(e);
           // Resize the iframe when we get a message that its contents
           // have been measured.
           window.addEventListener("message", (evt) => {
-            if (evt.data.type === "height" && evt.data.id === iframeId) {
+            if (iframe.contentWindow?.document === evt.source.document) {
               iframe.height = evt.data.height + 40 + "px";
             }
           });
