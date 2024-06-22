@@ -129,6 +129,25 @@ originated from the top frame, so some code might not recognize them as Date
 instances. Recreating them with `new Date`, as in the example above, will
 fix that issue.
 
+#### Inserting a stylesheet
+
+Obsidian's [CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP) forbids
+`<link>` elements bringing in external stylesheets. You can work around this
+by a helper function that fetches external CSS and inlines it into a new
+style on the page:
+
+```js
+async function addStyle(url) {
+  const style = new CSSStyleSheet();
+  style.replaceSync(await fetch(url).then(r => r.text()))
+  document.adoptedStyleSheets = [...document.adoptedStyleSheets, style];
+}
+```
+
+Note that some stylesheets you import this way will have relative references
+to images or they might import other stylesheets via `@import`, and those things
+won't work.
+
 ### Notes
 
 - There is a `width` variable, much like [Observable's](https://observablehq.com/framework/javascript#width), but
