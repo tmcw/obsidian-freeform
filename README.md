@@ -67,6 +67,55 @@ it with Freeform.
     }).plot({ height: 400, width }))
     ```
 
+#### Tracking habits
+
+Use this to track your habits in a calendar interface! It makes a few assumptions that
+you'll want to tweak and are noted in the code!
+
+This assumes that you're tracking habits as boolean properties in your daily notes.
+
+```js
+import * as d3 from "https://esm.run/d3@7";
+import * as Plot from "https://esm.run/@observablehq/plot@0.6.16";
+
+// NOTE:
+// I store my daily note in a folder called "01 Daily."
+// Adjust that. Also adjust habit-scale and habit-gym to whatever
+// the properties you track your habits are.
+const items = await window.top.app.plugins.plugins.dataview.api
+  .query(`table habit-scale, habit-gym
+	  from "01 Daily"`);
+
+const parsed = items.value.values.map(row => {
+  // Note: this assumes that your daily note file format is parseable
+  // as dates. Mine are stored like 2024-09-24. Adjust if yours are different!
+	const date = new Date(row[0].path.split('/')[1].replace('.md', ''));
+	return {
+		Date: date,
+		habits: row.slice(1).filter(Boolean).length
+	};
+});
+
+document.body.appendChild(Plot.plot({
+  padding: 0,
+  x: {axis: null},
+  y: {tickFormat: Plot.formatWeekday("en", "narrow"), tickSize: 0},
+  fx: {tickFormat: ""},
+  color: {scheme: "Blues", legend: true, label: "Habit completion"},
+  marks: [
+    Plot.cell(parsed, {
+      y: (d) => d3.utcWeek.count(d3.utcYear(d.Date), d.Date),
+      x: (d) => d.Date.getUTCDay(),
+      fx: (d) => d.Date.getUTCFullYear(),
+      fill: (d, i) => d.habits,
+      stroke: d3.interpolateBlues(0.1),
+      title: (d, i) => d.habits,
+      inset: 2
+    })
+  ]
+}))
+```
+
 #### Importing a module from esm.sh
 
 Most npm modules that are compatible with browsers are available from
